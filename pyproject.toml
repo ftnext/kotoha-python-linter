@@ -41,6 +41,9 @@ dev = [
     "mypy",
 ]
 
+[project.scripts]
+kotoha = "kotoha.__main__:main"
+
 [tool.taskipy.tasks]
 pre_test = "task format"
 test = "pytest -v"
