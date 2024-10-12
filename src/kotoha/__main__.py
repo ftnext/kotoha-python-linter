@@ -13,4 +13,5 @@ def main():
         run(src.read_text())
 
 
-main()
+if __name__ == "__main__":
+    main()
