@@ -6,7 +6,7 @@ from kotoha.core import ArgumentConcreteTypeHintChecker
 
 
 class TestArgumentConcreteTypeHintChecker:
-    def test_KTH000(self):
+    def test_KTH101(self) -> None:
         code = dedent(
             """\
         from collections.abc import Iterable
@@ -28,7 +28,7 @@ class TestArgumentConcreteTypeHintChecker:
 
         assert len(checker.errors) == 1
         assert checker.errors[0] == (6, 16, ANY)
-        assert checker.errors[0][2].startswith("KTH000")
+        assert checker.errors[0][2].startswith("KTH101")
 
     def test_not_raise_error_to_none(self) -> None:
         code = dedent(

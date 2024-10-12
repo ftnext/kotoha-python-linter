@@ -6,6 +6,12 @@ KTH000 = (
     "use abstract type (`Iterable`, `Sequence` or `Mapping` "
     "from `collections.abc`)"
 )
+KTH101 = (
+    "KTH101 "
+    "Use abstract type hint by `collections.abc.Iterable` or "
+    "`collections.abc.Sequence` "
+    "instead of concrete type hint `list`"
+)
 
 LineNumber = int
 ColumnOffset = int
@@ -19,13 +25,11 @@ class ArgumentConcreteTypeHintChecker(ast.NodeVisitor):
     def visit_arg(self, node: ast.arg) -> None:
         if node.annotation is not None:
             annotation: ast.expr = node.annotation
-            if hasattr(annotation, "value") and annotation.value.id in {
-                "list",
-                "dict",
-                "set",
-                "tuple",
-            }:
-                self.errors.append((node.lineno, node.col_offset, KTH000))
+            if hasattr(annotation, "value"):
+                if annotation.value.id == "list":
+                    self.errors.append((node.lineno, node.col_offset, KTH101))
+                elif annotation.value.id in {"dict", "set", "tuple"}:
+                    self.errors.append((node.lineno, node.col_offset, KTH000))
         self.generic_visit(node)
 
 
