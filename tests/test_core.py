@@ -30,10 +30,10 @@ class TestArgumentConcreteTypeHintChecker:
         assert checker.errors[0] == (6, 16, ANY)
         assert checker.errors[0][2].startswith("KTH000")
 
-    def test_KTH000_none_annotation(self):
+    def test_not_raise_error_to_none(self) -> None:
         code = dedent(
             """\
-        def plus_one_ng(numbers: list[int], dummy) -> list[int]:
+        def func_parameter_type_hint_is_none(numbers) -> list[int]:
             return [n + 1 for n in numbers]
         """
         )
@@ -41,13 +41,13 @@ class TestArgumentConcreteTypeHintChecker:
         checker = ArgumentConcreteTypeHintChecker()
         checker.visit(ast.parse(code))
 
-        assert len(checker.errors) == 1
+        assert len(checker.errors) == 0
 
-    def test_KTH000_name_object_case(self):
+    def test_not_raise_error_to_name_object(self) -> None:
         # Fix `AttributeError: 'Name' object has no attribute 'value'`
         code = dedent(
             """\
-        def run(code: str) -> None:
+        def func_parameter_type_hint_name_case(code: str) -> None:
             ...
         """
         )
