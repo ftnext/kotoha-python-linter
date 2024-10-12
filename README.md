@@ -1,6 +1,6 @@
 # flake8-kotoha
 
-**K**o**T**o**H**a: **K**aizen **T**ype **H**int
+[**K**o**T**o**H**a](https://millionlive-theaterdays.idolmaster-official.jp/idol/kotoha/): **K**aizen **T**ype **H**int
 
 ## Install
 
@@ -11,7 +11,7 @@ $ pipx install flake8
 $ pipx inject flake8 flake8-kotoha
 $ flake8 -h
 ...
-Installed plugins: flake8-kotoha: 0.0.1, ...
+Installed plugins: flake8-kotoha: 0.1.0, ...
 ```
 
 venv + pip
@@ -21,7 +21,7 @@ $ python -m venv .venv --upgrade-deps
 $ .venv/bin/python -m pip install flake8-kotoha
 $ .venv/bin/flake8 -h
 ...
-Installed plugins: flake8-kotoha: 0.0.1, ...
+Installed plugins: flake8-kotoha: 0.1.0, ...
 ```
 
 ## Usage
@@ -33,7 +33,7 @@ def plus_one(numbers: list[int]) -> list[int]:
 
 ```sh
 $ flake8 example.py
-example.py:1:14: KTH000 concrete type (`list`, `dict`, `set`, `tuple`) in function parameters, use abstract type (`Iterable`, `Sequence` or `Mapping` from `collections.abc`)
+example.py:1:14: KTH101 Type hint with abstract type `collections.abc.Iterable` or `collections.abc.Sequence`, instead of concrete type `list`
 ```
 
 ## Error codes
