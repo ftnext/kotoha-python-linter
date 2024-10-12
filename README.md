@@ -38,4 +38,13 @@ example.py:1:14: KTH000 concrete type (`list`, `dict`, `set`, `tuple`) in functi
 
 ## Error codes
 
-TODO
+Type hints in function **parameters**
+
+Use abstract types instead of concrete ones
+
+| error code | description |
+|:----:|:------------|
+| KTH101 | Use `Iterable` or `Sequence` instead of `list` |
+| KTH102 | Use `Iterable` or `Sequence` instead of `tuple` |
+| KTH103 | Use `Iterable` instead of `set` |
+| KTH104 | Use `Iterable` instead of `dict` |
