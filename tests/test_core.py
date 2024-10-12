@@ -30,6 +30,36 @@ class TestArgumentConcreteTypeHintChecker:
         assert checker.errors[0] == (6, 16, ANY)
         assert checker.errors[0][2].startswith("KTH101")
 
+    def test_KTH102(self) -> None:
+        code = dedent(
+            """\
+        def plus_one(numbers: tuple[int]) -> list[int]:
+            return [n + 1 for n in numbers]
+        """
+        )
+
+        checker = ArgumentConcreteTypeHintChecker()
+        checker.visit(ast.parse(code))
+
+        assert len(checker.errors) == 1
+        assert checker.errors[0] == (1, 13, ANY)
+        assert checker.errors[0][2].startswith("KTH102")
+
+    def test_KTH103(self) -> None:
+        code = dedent(
+            """\
+        def plus_one(numbers: set[int]) -> list[int]:
+            return [n + 1 for n in numbers]
+        """
+        )
+
+        checker = ArgumentConcreteTypeHintChecker()
+        checker.visit(ast.parse(code))
+
+        assert len(checker.errors) == 1
+        assert checker.errors[0] == (1, 13, ANY)
+        assert checker.errors[0][2].startswith("KTH103")
+
     def test_not_raise_error_to_none(self) -> None:
         code = dedent(
             """\
