@@ -7,10 +7,14 @@ KTH000 = (
     "from `collections.abc`)"
 )
 
+LineNumber = int
+ColumnOffset = int
+ErrorMessage = str
+
 
 class ArgumentConcreteTypeHintChecker(ast.NodeVisitor):
     def __init__(self) -> None:
-        self.errors: list[tuple[int, int, str]] = []
+        self.errors: list[tuple[LineNumber, ColumnOffset, ErrorMessage]] = []
 
     def visit_arg(self, node: ast.arg) -> None:
         if node.annotation is not None:
