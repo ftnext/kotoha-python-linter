@@ -20,6 +20,7 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
 ]
+dependencies = ["flake8"]
 dynamic = ["version"]
 
 [project.urls]
@@ -27,6 +28,9 @@ Repository = "https://github.com/ftnext/kotoha-python-linter"
 
 [tool.setuptools.dynamic]
 version = { attr = "kotoha.__version__" }
+
+[project.entry-points."flake8.extension"]
+KTH = "kotoha.plugins:Flake8KotohaPlugin"
 
 [project.optional-dependencies]
 dev = [
@@ -37,7 +41,6 @@ dev = [
     "isort",
     "pytest",
     "pytest-randomly",
-    "flake8",
     "mypy",
 ]
 
