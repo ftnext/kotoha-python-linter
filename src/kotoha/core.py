@@ -2,25 +2,25 @@ import ast
 
 KTH101 = (
     "KTH101 "
-    "Use abstract type hint by `collections.abc.Iterable` or "
-    "`collections.abc.Sequence` "
-    "instead of concrete type hint `list`"
+    "Type hint with abstract type `collections.abc.Iterable` or "
+    "`collections.abc.Sequence`, "
+    "instead of concrete type `list`"
 )
 KTH102 = (
     "KTH102 "
-    "Use abstract type hint by `collections.abc.Iterable` or "
-    "`collections.abc.Sequence` "
-    "instead of concrete type hint `tuple`"
+    "Type hint with abstract type `collections.abc.Iterable` or "
+    "`collections.abc.Sequence`, "
+    "instead of concrete type `tuple`"
 )
 KTH103 = (
     "KTH103 "
-    "Use abstract type hint by `collections.abc.Iterable` "
-    "instead of concrete type hint `set`"
+    "Type hint with abstract type `collections.abc.Iterable`"
+    "instead of concrete type `set`"
 )
 KTH104 = (
     "KTH104 "
-    "Use abstract type hint by `collections.abc.Iterable` "
-    "instead of concrete type hint `dict`"
+    "Type hint with abstract type `collections.abc.Iterable`"
+    "instead of concrete type `dict`"
 )
 
 LineNumber = int
