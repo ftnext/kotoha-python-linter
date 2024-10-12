@@ -29,21 +29,32 @@ ErrorMessage = str
 
 
 class ArgumentConcreteTypeHintChecker(ast.NodeVisitor):
+    _concrete_type_hint_error_codes: dict[str, ErrorMessage] = {
+        "list": KTH101,
+        "tuple": KTH102,
+        "set": KTH103,
+        "dict": KTH104,
+    }
+
     def __init__(self) -> None:
         self.errors: list[tuple[LineNumber, ColumnOffset, ErrorMessage]] = []
 
     def visit_arg(self, node: ast.arg) -> None:
         if node.annotation is not None:
             annotation: ast.expr = node.annotation
-            if hasattr(annotation, "value"):
-                if annotation.value.id == "list":
-                    self.errors.append((node.lineno, node.col_offset, KTH101))
-                elif annotation.value.id == "tuple":
-                    self.errors.append((node.lineno, node.col_offset, KTH102))
-                elif annotation.value.id == "set":
-                    self.errors.append((node.lineno, node.col_offset, KTH103))
-                elif annotation.value.id == "dict":
-                    self.errors.append((node.lineno, node.col_offset, KTH104))
+            if (
+                hasattr(annotation, "value")
+                and annotation.value.id in self._concrete_type_hint_error_codes
+            ):
+                self.errors.append(
+                    (
+                        node.lineno,
+                        node.col_offset,
+                        self._concrete_type_hint_error_codes[
+                            annotation.value.id
+                        ],
+                    )
+                )
         self.generic_visit(node)
 
 
