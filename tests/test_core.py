@@ -1,9 +1,11 @@
+import ast
 from textwrap import dedent
+from unittest.mock import ANY
 
-from kotoha.core import run
+from kotoha.core import ArgumentConcreteTypeHintChecker
 
 
-def test_引数の型ヒントをlistにしてはいけません(capsys):
+def test_ArgumentConcreteTypeHintChecker() -> None:
     code = dedent(
         """\
     from collections.abc import Iterable
@@ -20,11 +22,9 @@ def test_引数の型ヒントをlistにしてはいけません(capsys):
     """
     )
 
-    run(code)
+    checker = ArgumentConcreteTypeHintChecker()
+    checker.visit(ast.parse(code))
 
-    actual = capsys.readouterr().out
-    expected = """\
-Fix at 6:16
-arg(arg='numbers', annotation=Subscript(value=Name(id='list', ctx=Load()), slice=Name(id='int', ctx=Load()), ctx=Load()))
-"""  # NOQA: E501
-    assert actual == expected
+    assert len(checker.errors) == 1
+    assert checker.errors[0] == (6, 16, ANY)
+    assert checker.errors[0][2].startswith("KTH000")

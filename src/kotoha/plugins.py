@@ -3,6 +3,7 @@ from collections.abc import Generator
 from typing import Any, Type
 
 import kotoha
+from kotoha.core import ArgumentConcreteTypeHintChecker
 
 
 class Flake8KotohaPlugin:
@@ -13,4 +14,8 @@ class Flake8KotohaPlugin:
         self._tree = tree
 
     def run(self) -> Generator[tuple[int, int, str, Type[Any]], None, None]:
-        yield (1, 0, "KTH kawaiine", type(self))
+        checker = ArgumentConcreteTypeHintChecker()
+        checker.visit(self._tree)
+
+        for lineno, col_offset, message in checker.errors:
+            yield (lineno, col_offset, message, type(self))
