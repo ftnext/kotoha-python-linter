@@ -42,3 +42,16 @@ class TestArgumentConcreteTypeHintChecker:
         checker.visit(ast.parse(code))
 
         assert len(checker.errors) == 1
+
+    def test_KTH000_name_object_case(self):
+        # Fix `AttributeError: 'Name' object has no attribute 'value'`
+        code = dedent(
+            """\
+        def run(code: str) -> None:
+            ...
+        """
+        )
+        checker = ArgumentConcreteTypeHintChecker()
+        checker.visit(ast.parse(code))
+
+        assert len(checker.errors) == 0
