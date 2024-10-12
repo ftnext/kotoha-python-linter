@@ -1,11 +1,5 @@
 import ast
 
-KTH000 = (
-    "KTH000 "
-    "concrete type (`list`, `dict`, `set`, `tuple`) in function parameters, "
-    "use abstract type (`Iterable`, `Sequence` or `Mapping` "
-    "from `collections.abc`)"
-)
 KTH101 = (
     "KTH101 "
     "Use abstract type hint by `collections.abc.Iterable` or "
@@ -22,6 +16,11 @@ KTH103 = (
     "KTH103 "
     "Use abstract type hint by `collections.abc.Iterable` "
     "instead of concrete type hint `set`"
+)
+KTH104 = (
+    "KTH104 "
+    "Use abstract type hint by `collections.abc.Iterable` "
+    "instead of concrete type hint `dict`"
 )
 
 LineNumber = int
@@ -43,8 +42,8 @@ class ArgumentConcreteTypeHintChecker(ast.NodeVisitor):
                     self.errors.append((node.lineno, node.col_offset, KTH102))
                 elif annotation.value.id == "set":
                     self.errors.append((node.lineno, node.col_offset, KTH103))
-                elif annotation.value.id in {"dict"}:
-                    self.errors.append((node.lineno, node.col_offset, KTH000))
+                elif annotation.value.id == "dict":
+                    self.errors.append((node.lineno, node.col_offset, KTH104))
         self.generic_visit(node)
 
 

@@ -60,6 +60,21 @@ class TestArgumentConcreteTypeHintChecker:
         assert checker.errors[0] == (1, 13, ANY)
         assert checker.errors[0][2].startswith("KTH103")
 
+    def test_KTH104(self) -> None:
+        code = dedent(
+            """\
+        def plus_one(numbers: dict[int, str]) -> list[int]:
+            return [n + 1 for n in numbers]
+        """
+        )
+
+        checker = ArgumentConcreteTypeHintChecker()
+        checker.visit(ast.parse(code))
+
+        assert len(checker.errors) == 1
+        assert checker.errors[0] == (1, 13, ANY)
+        assert checker.errors[0][2].startswith("KTH104")
+
     def test_not_raise_error_to_none(self) -> None:
         code = dedent(
             """\
