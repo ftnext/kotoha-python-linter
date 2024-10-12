@@ -1,5 +1,4 @@
 import ast
-from typing import cast
 
 KTH000 = (
     "KTH000 "
@@ -14,9 +13,15 @@ class ArgumentConcreteTypeHintChecker(ast.NodeVisitor):
         self.errors: list[tuple[int, int, str]] = []
 
     def visit_arg(self, node: ast.arg) -> None:
-        annotation = cast(ast.Constant, node.annotation)
-        if annotation.value.id in {"list", "dict", "set", "tuple"}:
-            self.errors.append((node.lineno, node.col_offset, KTH000))
+        if node.annotation is not None:
+            annotation: ast.expr = node.annotation
+            if hasattr(annotation, "value") and annotation.value.id in {
+                "list",
+                "dict",
+                "set",
+                "tuple",
+            }:
+                self.errors.append((node.lineno, node.col_offset, KTH000))
         self.generic_visit(node)
 
 

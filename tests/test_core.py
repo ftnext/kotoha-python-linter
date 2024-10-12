@@ -29,3 +29,16 @@ class TestArgumentConcreteTypeHintChecker:
         assert len(checker.errors) == 1
         assert checker.errors[0] == (6, 16, ANY)
         assert checker.errors[0][2].startswith("KTH000")
+
+    def test_KTH000_none_annotation(self):
+        code = dedent(
+            """\
+        def plus_one_ng(numbers: list[int], dummy) -> list[int]:
+            return [n + 1 for n in numbers]
+        """
+        )
+
+        checker = ArgumentConcreteTypeHintChecker()
+        checker.visit(ast.parse(code))
+
+        assert len(checker.errors) == 1
