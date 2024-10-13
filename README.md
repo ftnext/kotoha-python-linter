@@ -48,3 +48,17 @@ Use abstract types instead of concrete ones
 | KTH102 | Use `Iterable` or `Sequence` instead of `tuple` |
 | KTH103 | Use `Iterable` instead of `set` |
 | KTH104 | Use `Iterable` instead of `dict` |
+
+## Rationale
+
+https://docs.python.org/ja/3/library/typing.html#typing.List
+
+>Note that to annotate arguments, it is preferred to use an abstract collection type such as `Sequence` or `Iterable` rather than to use `list` or `typing.List`.
+
+https://mypy.readthedocs.io/en/stable/cheat_sheet_py3.html#standard-duck-types
+
+>Use Iterable for generic iterables (anything usable in "`for`"), and Sequence where a sequence (supporting "`len`" and "`__getitem__`") is required
+
+https://typing.readthedocs.io/en/latest/reference/best_practices.html#arguments-and-return-types
+
+>For arguments, prefer protocols and abstract types (`Mapping`, `Sequence`, `Iterable`, etc.).
