@@ -24,6 +24,15 @@ $ .venv/bin/flake8 -h
 Installed plugins: flake8-kotoha: 0.1.0, ...
 ```
 
+uv
+
+```sh
+$ uv tool install flake8 --with flake8-kotoha
+$ flake8 -h
+...
+Installed plugins: flake8-kotoha: 0.1.0, ...
+```
+
 ## Usage
 
 ```python
