@@ -100,3 +100,15 @@ class TestArgumentConcreteTypeHintChecker:
         checker.visit(ast.parse(code))
 
         assert len(checker.errors) == 0
+
+    def test_not_raise_error_to_attribute_object(self) -> None:
+        code = dedent(
+            """\
+        def func_parameter_type_hint_attribute_case(tree: ast.AST) -> None:
+            ...
+        """
+        )
+        checker = ArgumentConcreteTypeHintChecker()
+        checker.visit(ast.parse(code))
+
+        assert len(checker.errors) == 0
