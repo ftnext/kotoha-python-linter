@@ -1,4 +1,5 @@
 import ast
+from typing import TypeGuard
 
 KTH101 = (
     "KTH101 "
@@ -39,9 +40,13 @@ class ArgumentConcreteTypeHintChecker(ast.NodeVisitor):
     def __init__(self) -> None:
         self.errors: list[tuple[LineNumber, ColumnOffset, ErrorMessage]] = []
 
+    @staticmethod
+    def is_annotated(annotation: ast.expr | None) -> TypeGuard[ast.expr]:
+        return annotation is not None
+
     def visit_arg(self, node: ast.arg) -> None:
-        if node.annotation is not None:
-            annotation: ast.expr = node.annotation
+        if self.is_annotated(node.annotation):
+            annotation = node.annotation
             if (
                 hasattr(annotation, "value")
                 and annotation.value.id in self._concrete_type_hint_error_codes
