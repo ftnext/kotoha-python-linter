@@ -46,20 +46,20 @@ class ArgumentConcreteTypeHintChecker(ast.NodeVisitor):
 
     def visit_arg(self, node: ast.arg) -> None:
         if self.is_annotated(node.annotation):
-            annotation = node.annotation
-            if (
-                hasattr(annotation, "value")
-                and annotation.value.id in self._concrete_type_hint_error_codes
-            ):
-                self.errors.append(
-                    (
-                        node.lineno,
-                        node.col_offset,
-                        self._concrete_type_hint_error_codes[
-                            annotation.value.id
-                        ],
+            # node.annotations is ast.Name, ast.Subscript or ast.Attribute
+            if isinstance(node.annotation, ast.Subscript):
+                value_node = node.annotation.value
+                assert isinstance(value_node, ast.Name)
+                if value_node.id in self._concrete_type_hint_error_codes:
+                    self.errors.append(
+                        (
+                            node.lineno,
+                            node.col_offset,
+                            self._concrete_type_hint_error_codes[
+                                value_node.id
+                            ],
+                        )
                     )
-                )
         self.generic_visit(node)
 
 
