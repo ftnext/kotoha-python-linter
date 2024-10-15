@@ -1,5 +1,5 @@
 import ast
-from typing import TypeGuard
+from typing import cast
 
 KTH101 = (
     "KTH101 "
@@ -41,25 +41,26 @@ class ArgumentConcreteTypeHintChecker(ast.NodeVisitor):
         self.errors: list[tuple[LineNumber, ColumnOffset, ErrorMessage]] = []
 
     @staticmethod
-    def is_annotated(annotation: ast.expr | None) -> TypeGuard[ast.expr]:
-        return annotation is not None
+    def is_annotated_with_subscript(arg: ast.arg) -> bool:
+        if arg.annotation is None:
+            return False
+        # arg.annotation(: ast.expr) is
+        # ast.Name, ast.Subscript or ast.Attribute.
+        return isinstance(arg.annotation, ast.Subscript)
 
     def visit_arg(self, node: ast.arg) -> None:
-        if self.is_annotated(node.annotation):
-            # node.annotations is ast.Name, ast.Subscript or ast.Attribute
-            if isinstance(node.annotation, ast.Subscript):
-                value_node = node.annotation.value
-                assert isinstance(value_node, ast.Name)
-                if value_node.id in self._concrete_type_hint_error_codes:
-                    self.errors.append(
-                        (
-                            node.lineno,
-                            node.col_offset,
-                            self._concrete_type_hint_error_codes[
-                                value_node.id
-                            ],
-                        )
+        if self.is_annotated_with_subscript(node):
+            annotation = cast(ast.Subscript, node.annotation)
+            value_node = annotation.value
+            assert isinstance(value_node, ast.Name)
+            if value_node.id in self._concrete_type_hint_error_codes:
+                self.errors.append(
+                    (
+                        node.lineno,
+                        node.col_offset,
+                        self._concrete_type_hint_error_codes[value_node.id],
                     )
+                )
         self.generic_visit(node)
 
 
