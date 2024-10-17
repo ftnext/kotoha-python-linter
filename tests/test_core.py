@@ -112,3 +112,15 @@ class TestArgumentConcreteTypeHintChecker:
         checker.visit(ast.parse(code))
 
         assert len(checker.errors) == 0
+
+    def test_not_raise_error_to_function_annotation(self) -> None:
+        code = dedent(
+            """\
+        def func_parameter_annotation_case(spam: "いえーい！みんな見てる？") -> None:
+            ...
+        """
+        )
+        checker = ArgumentConcreteTypeHintChecker()
+        checker.visit(ast.parse(code))
+
+        assert len(checker.errors) == 0
