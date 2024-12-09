@@ -7,8 +7,7 @@
 pipx
 
 ```sh
-$ pipx install flake8
-$ pipx inject flake8 flake8-kotoha
+$ pipx install --preinstall flake8-kotoha flake8
 $ flake8 -h
 ...
 Installed plugins: flake8-kotoha: 0.1.0, ...
