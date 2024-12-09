@@ -4,6 +4,16 @@
 
 ## Install
 
+### uvx (Recommended)
+
+The easiest way to run `flake8` (without manually installation).
+
+```sh
+$ uvx --with flake8-kotoha flake8 .
+```
+
+### Other options
+
 pipx
 
 ```sh
