@@ -1,0 +1,10 @@
+# uvx --from ast-grep-cli ast-grep scan --rule ast-grep-kotoha.yaml examples/use_iterable.py
+id: do-not-use-list-as-typed-parameter
+language: Python
+rule:
+  pattern:
+    context: 'a: list[$TYPE]'
+    selector: type
+  inside:
+    kind: typed_parameter
+fix: Iterable[$TYPE]
