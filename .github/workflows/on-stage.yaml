@@ -17,6 +17,7 @@ jobs:
           def plus_one(numbers: list[int]) -> list[int]:
               return [n + 1 for n in numbers]
           PY
+          cat baseball.py
       - name: Run flake8-kotoha
         run: |
           set +e
