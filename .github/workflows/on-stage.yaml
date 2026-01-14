@@ -23,3 +23,27 @@ jobs:
           set +e
           uvx --with flake8-kotoha flake8 baseball.py
           [ $? -eq 1 ]
+
+  windows:
+    runs-on: windows-latest
+    steps:
+      - name: Install uv
+        run: |
+          irm https://astral.sh/uv/install.ps1 | iex
+          uv --version
+          uvx --version
+        shell: powershell
+      - name: Play baseball
+        run: |
+          cat > baseball.py <<PY
+          def plus_one(numbers: list[int]) -> list[int]:
+              return [n + 1 for n in numbers]
+          PY
+          cat baseball.py
+        shell: bash
+      - name: Run flake8-kotoha
+        run: |
+          set +e
+          uvx --with flake8-kotoha flake8 baseball.py
+          [ $? -eq 1 ]
+        shell: bash
